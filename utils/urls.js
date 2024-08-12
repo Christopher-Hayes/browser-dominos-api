@@ -80,11 +80,14 @@ function createRecursiveProxy(target) {
 
       if (typeof value === 'string') {
         try {
-          const url = new URL(value);
-          const tld = url.hostname.split('.').pop();
-          const subdomain = url.hostname.split('.')[0];
-          const path = url.pathname;
-          return `${PROXY_SERVER}/api/dominos-proxy/${tld}/${subdomain}${path}`;
+          // Only manipulate the string components without parsing it as a URL.
+          // We cannot use URL() because the ${} placeholders will be modified.
+          const [protocol, , hostname, ...rest] = value.split('/');
+          const tld = hostname.split('.').pop();
+          const path = '/' + rest.join('/');
+
+          // Return the transformed URL with placeholders preserved
+          return `${PROXY_SERVER}/api/dominos-proxy/${tld}${path}`;
         } catch (e) {
           console.warn(e);
           return value;
