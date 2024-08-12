@@ -67,32 +67,34 @@ const canadaEndpoints = {
 // (Optional) Use this if your proxy server is on another domain
 const PROXY_SERVER = '';
 
-// Create a proxy handler to transform the URLs
-const proxyHandler = {
-  // Attempt to transform URLs to: /api/dominos-proxy/${TLD}/${path}
-  get: function (target, prop) {
-    // These properties should not be transformed
-    if (['sourceUri', 'track'].includes(prop)) {
-      return target[prop];
-    }
+// Create a proxy to transform the URLs
+function createProxy(target) {
+  return new Proxy(target, {
+    get: (obj, prop) => {
+      if (['sourceUri', 'track'].includes(prop)) {
+        return obj[prop];
+      }
 
-    // If prop is not a string, return the original value
-    if (typeof target[prop] !== 'string') {
-      return target[prop];
-    }
+      if (typeof obj[prop] === 'object') {
+        // Recursively wrap nested objects
+        return createProxy(obj[prop]);
+      }
 
-    try {
-      const url = new URL(target[prop]);
-      const tld = url.hostname.split('.').pop();
-      const path = url.pathname;
+      if (typeof obj[prop] === 'string') {
+        try {
+          const url = new URL(obj[prop]);
+          const tld = url.hostname.split('.').pop();
+          const path = url.pathname;
+          return `${PROXY_SERVER}/api/dominos-proxy/${tld}${path}`;
+        } catch (e) {
+          console.warn(e);
+          return obj[prop];
+        }
+      }
 
-      // Return the transformed URL
-      return `${PROXY_SERVER}/api/dominos-proxy/${tld}${path}`;
-    } catch (e) {
-      console.warn(e);
-      return target[prop];
+      return obj[prop];
     }
-  }
+  });
 }
 
 /* Object proxies
@@ -109,8 +111,8 @@ proxy the requests through a server.
 To facilitate this, we're going to use a Proxy object to
 transform the URLs.
 */
-const canada = new Proxy(canadaEndpoints, proxyHandler);
-const usa = new Proxy(usaEndpoints, proxyHandler);
+const canada = createProxy(canadaEndpoints);
+const usa = createProxy(usaEndpoints);
 
 let urls = usa;
 
