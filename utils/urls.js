@@ -82,8 +82,9 @@ function createRecursiveProxy(target) {
         try {
           const url = new URL(value);
           const tld = url.hostname.split('.').pop();
+          const subdomain = url.hostname.split('.')[0];
           const path = url.pathname;
-          return `${PROXY_SERVER}/api/dominos-proxy/${tld}${path}`;
+          return `${PROXY_SERVER}/api/dominos-proxy/${tld}/${subdomain}${path}`;
         } catch (e) {
           console.warn(e);
           return value;
