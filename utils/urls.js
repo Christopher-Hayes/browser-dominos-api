@@ -71,9 +71,9 @@ const PROXY_SERVER = '';
 const proxyHandler = {
   // Attempt to transform URLs to: /api/dominos-proxy/${TLD}/${path}
   get: function (target, prop) {
-    // Leave sourceUri as is, it's not used for requests
-    if (prop === 'sourceUri') {
-      return target
+    // These properties should not be transformed
+    if (['sourceUri', 'track'].includes(prop)) {
+      return target[prop];
     }
 
     // If prop is not a string, return the original value
