@@ -68,31 +68,33 @@ const canadaEndpoints = {
 const PROXY_SERVER = '';
 
 // Create a proxy to transform the URLs
-function createProxy(target) {
+function createRecursiveProxy(target) {
   return new Proxy(target, {
     get: (obj, prop) => {
-      if (['sourceUri', 'track'].includes(prop)) {
-        return obj[prop];
+      const value = obj[prop];
+
+      // Directly return sourceUri and track as they are special cases
+      if (prop === 'sourceUri' || prop === 'track') {
+        return value;
       }
 
-      if (typeof obj[prop] === 'object') {
-        // Recursively wrap nested objects
-        return createProxy(obj[prop]);
-      }
-
-      if (typeof obj[prop] === 'string') {
+      if (typeof value === 'string') {
         try {
-          const url = new URL(obj[prop]);
+          const url = new URL(value);
           const tld = url.hostname.split('.').pop();
           const path = url.pathname;
           return `${PROXY_SERVER}/api/dominos-proxy/${tld}${path}`;
         } catch (e) {
           console.warn(e);
-          return obj[prop];
+          return value;
         }
       }
 
-      return obj[prop];
+      if (typeof value === 'object' && value !== null) {
+        return createRecursiveProxy(value);
+      }
+
+      return value;
     }
   });
 }
@@ -111,8 +113,8 @@ proxy the requests through a server.
 To facilitate this, we're going to use a Proxy object to
 transform the URLs.
 */
-const canada = createProxy(canadaEndpoints);
-const usa = createProxy(usaEndpoints);
+const canada = createRecursiveProxy(canadaEndpoints);
+const usa = createRecursiveProxy(usaEndpoints);
 
 let urls = usa;
 
