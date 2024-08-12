@@ -85,9 +85,11 @@ function createRecursiveProxy(target) {
           const [protocol, , hostname, ...rest] = value.split('/');
           const tld = hostname.split('.').pop();
           const path = '/' + rest.join('/');
+          // Note: Only works for XXX.dominos.ZZZ domains
+          const subdomain = hostname.replace(`dominos.${tld}`, '');
 
           // Return the transformed URL with placeholders preserved
-          return `${PROXY_SERVER}/api/dominos-proxy/${tld}${path}`;
+          return `${PROXY_SERVER}/api/dominos-proxy/${tld}/${subdomain}${path}`;
         } catch (e) {
           console.warn(e);
           return value;
