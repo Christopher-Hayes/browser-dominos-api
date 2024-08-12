@@ -64,13 +64,15 @@ class Menu{
         is.object(menu);
 
         //define categories
-        for(const [categoryKey, dominosCategory] of Object.entries(this.dominosAPIResponse.Categorization)){
-            const category= this.menu.categories[toCamel(categoryKey)]={};
-            
-            this.#defineCategories(
-                dominosCategory.Categories,
-                category
-            );
+        if (this.dominosAPIResponse.Categorization) {
+            for(const [categoryKey, dominosCategory] of Object.entries(this.dominosAPIResponse.Categorization)){
+                const category= this.menu.categories[toCamel(categoryKey)]={};
+                
+                this.#defineCategories(
+                    dominosCategory.Categories,
+                    category
+                );
+            }
         }
 
         this.#allParentAndGrandDescendantsToCamel(this.dominosAPIResponse.Flavors,this.menu.flavors);
