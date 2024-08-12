@@ -1,76 +1,67 @@
-import fetch from 'node-fetch';
+import ky from 'ky';
 import urls from './urls.js';
 
-const post=async function(url, payload) {
+const post = async function(url, payload) {
     const options = {
-        method:'POST',
+        method: 'POST',
         headers: {
             'Referer': urls.referer,
             'Accept': 'application/json',
             'Content-Type': 'application/json'
         },
-        body:payload
+        json: payload
     };
 
-    //console.log(options,url);
+    //console.log(options, url);
 
-    const res=await fetch(
-        url,
-        options
-    );
+    const res = await ky(url, options);
 
     //console.log(await res.text());
 
     return await res.json();
-}
+};
 
-const get = async function(url){
+const get = async function(url) {
     const options = {
-        method:'GET',
+        method: 'GET',
         headers: {
             'accept': 'application/json',
             'content-type': 'application/json'
         }
     };
 
-    //console.log(options,url);
+    //console.log(options, url);
 
-    const res=await fetch(
-        url,
-        options
-    );
+    const res = await ky(url, options);
 
     //console.log(await res.text());
 
     return await res.json();
-}
+};
 
-const getTracking = async function(url,market='UNITED_STATES'){
+const getTracking = async function(url, market='UNITED_STATES') {
     const options = {
-        "headers": {
-            "accept": "application/json",
-            "content-type": "application/json; charset=utf-8",
-            "dpz-language": "en",
-            "dpz-market": "UNITED_STATES"
-          },
-          "method": "GET"
+        headers: {
+            'accept': 'application/json',
+            'content-type': 'application/json; charset=utf-8',
+            'dpz-language': 'en',
+            'dpz-market': 'UNITED_STATES'
+        },
+        method: 'GET'
     };
 
-    //console.log(options,url);
+    //console.log(options, url);
 
-    const res=await fetch(
-        url,
-        options
-    );
+    const res = await ky(url, options);
 
     return await res.json();
-}
+};
 
-const old={get,getTracking,post}
+const old = { get, getTracking, post };
 
 export {
     old as default,
     get,
     getTracking,
     post
-}
+};

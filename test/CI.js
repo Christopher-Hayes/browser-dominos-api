@@ -14,8 +14,8 @@ import runOrderTest from './tests/order.js';
 
 const test=new VanillaTest;
 
-//we will add delays between the tests that API requests
-//this will help prevent us from getting rate limited due to testing
+// we will add delays between the tests that API requests
+// this will help prevent us from getting rate limited due to testing
 
 casingTest(test);
 runAddressTest(test);
@@ -37,13 +37,5 @@ await runTrackingTest(test);
 delay(5e3);
 
 await runOrderTest(test);
-
-
-
-
-
-
-
-
 
 test.report();

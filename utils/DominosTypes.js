@@ -1,7 +1,7 @@
 import '../modules/DominosErrors.js';
 
 import Is from 'strong-type';
-import {FetchError} from 'node-fetch';
+import { HTTPError } from 'ky'; // Using ky's HTTPError
 
 import Address from '../modules/Address.js';
 import AmountsBreakdown from '../modules/AmountsBreakdown.js';
@@ -18,83 +18,83 @@ import VanillaTest from 'vanilla-test';
 
 class IsDominos extends Is{
     test(value){
-        return this.instanceCheck(value,VanillaTest);
+        return this.instanceCheck(value, VanillaTest);
     }
 
     address(value){
-        return this.instanceCheck(value,Address);
+        return this.instanceCheck(value, Address);
     }
 
     amountsBreakdown(value){
-        return this.instanceCheck(value,AmountsBreakdown);
+        return this.instanceCheck(value, AmountsBreakdown);
     }
 
     nearbyStores(value){
-        return this.instanceCheck(value,NearbyStores);
+        return this.instanceCheck(value, NearbyStores);
     }
 
     menu(value){
-        return this.instanceCheck(value,Menu);
+        return this.instanceCheck(value, Menu);
     }
 
     store(value){
-        return this.instanceCheck(value,Store);
+        return this.instanceCheck(value, Store);
     }
 
     item(value){
-        return this.instanceCheck(value,Item);
+        return this.instanceCheck(value, Item);
     }
 
     customer(value){
-        return this.instanceCheck(value,Customer);
+        return this.instanceCheck(value, Customer);
     }
 
     image(value){
-        return this.instanceCheck(value,Image);
+        return this.instanceCheck(value, Image);
     }
 
     payment(value){
-        return this.instanceCheck(value,Payment);
+        return this.instanceCheck(value, Payment);
     }
 
     tracking(value){
-        return this.instanceCheck(value,Tracking);
+        return this.instanceCheck(value, Tracking);
     }
 
     validationError(value){
-        return this.instanceCheck(value,DominosValidationError);
+        return this.instanceCheck(value, DominosValidationError);
     }
 
     priceError(value){
-        return this.instanceCheck(value,DominosPriceError);
+        return this.instanceCheck(value, DominosPriceError);
     }
 
     placeOrderError(value){
-        return this.instanceCheck(value,DominosPlaceOrderError);
+        return this.instanceCheck(value, DominosPlaceOrderError);
     }
 
     trackingError(value){
-        return this.instanceCheck(value,DominosTrackingError);
+        return this.instanceCheck(value, DominosTrackingError);
     }
 
     addressError(value){
-        return this.instanceCheck(value,DominosAddressError);
+        return this.instanceCheck(value, DominosAddressError);
     }
 
     dateError(value){
-        return this.instanceCheck(value,DominosDateError);
+        return this.instanceCheck(value, DominosDateError);
     }
 
     storeError(value){
-        return this.instanceCheck(value,DominosStoreError);
+        return this.instanceCheck(value, DominosStoreError);
     }
 
     productsError(value){
-        return this.instanceCheck(value,DominosProductsError);
+        return this.instanceCheck(value, DominosProductsError);
     }
 
     fetchError(value){
-        return this.instanceCheck(value,FetchError);
+        return this.instanceCheck(value, HTTPError);  // Changed from FetchError to HTTPError
     }
 }
 

@@ -13,8 +13,8 @@
     "coverage": "echo 'See your coverage report at http://localhost:8080' && node-http-server port=8080 root=./coverage/",
     "start": "npm i && node example/commandline-pizza/dominos-commandline-pizza.js"
   },
-  "engines" : { 
-    "node" : ">=14.0.0" 
+  "engines": {
+    "node": ">=14.0.0"
   },
   "pre-commit": [
     "precommit"
@@ -25,11 +25,10 @@
     "coverage": "coverage"
   },
   "dependencies": {
-    "js-base64-file": "^2.0.3",
-    "node-fetch": "^2.6.1",
+    "browser-xml2js": "^0.4.19",
+    "ky": "^1.5.0",
     "strong-type": "^0.1.6",
-    "vanilla-test": "^1.4.7",
-    "xml2js": "^0.4.23"
+    "vanilla-test": "^1.4.7"
   },
   "devDependencies": {
     "c8": "^7.6.0",
@@ -139,9 +138,9 @@
       "url": "https://github.com/lastraum"
     },
     {
-      "name":"Robbie Averill",
-      "email":"robbie@averill.co.nz",
-      "url":"https://github.com/robbieaverill" 
+      "name": "Robbie Averill",
+      "email": "robbie@averill.co.nz",
+      "url": "https://github.com/robbieaverill"
     }
   ],
   "funding": {

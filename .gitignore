@@ -1,2 +1,4 @@
 node_modules
 S_PIZPX.jpg
+coverage/tmp
+.env

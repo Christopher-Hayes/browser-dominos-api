@@ -7,6 +7,7 @@ const menu=await new Menu(4337);
 const productCode=menu.menu.products[
     Object.keys(menu.menu.products)[19]
 ].imageCode;
+console.log('product:',menu.menu.products[Object.keys(menu.menu.products)[19]]);
 const minSize=10e3; //10k
 
 const runTest=async function(test){
